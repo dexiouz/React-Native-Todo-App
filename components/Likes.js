@@ -15,11 +15,12 @@ class Likes extends Component {
   }
   // decreaseLikes handler
   decreaseLikes = () => {
-    this.setState((prevState) => {
+    this.state.likes &&
+    (this.setState((prevState) => {
       return {
         likes: prevState.likes - 1
       }
-    })
+    }))
   }
   // resetLikes handler
   resetLikes = () => {
@@ -33,7 +34,7 @@ class Likes extends Component {
     return (
       <View>
         <Text style={styles.text}>Welcome to my Likes App</Text>
-        <Text> Likes: {this.state.likes} </Text>
+        <Text style={styles.text}> Likes: {this.state.likes} </Text>
 
        <View style = {styles.btn}> 
         <Button
@@ -54,7 +55,7 @@ class Likes extends Component {
           onPress={this.resetLikes}
           title="reset"
           color="red"
-          disabled={this.state.likes == 0}
+          disabled={this.state.likes <= 0}
         />
       </View>
 
