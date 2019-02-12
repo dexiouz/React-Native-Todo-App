@@ -6,7 +6,7 @@ const Flex = (props) => {
       <View style={{flex: 1, backgroundColor: '#007991'}}></View>
       <View style={{flex: 2, backgroundColor: '#439a86'}}></View>
       <View style={{flex: 3, backgroundColor: '#e9d985'}}></View>
-      <View style={{flex: 6, backgroundColor: '#222e50'}}></View>
+      <View style={{flex: 4, backgroundColor: '#222e50'}}></View>
      </View>
   );
 }
