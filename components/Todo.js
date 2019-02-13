@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, FlatList, TextInput, Button } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TextInput, Button, TouchableOpacity } from 'react-native';
 import uuid from 'uuid'
 export default class Todo extends React.Component {
   render() {
@@ -34,7 +34,7 @@ export default class Todo extends React.Component {
 
           {/* Input and Button View */}
           {/* TextInput */}
-          <View style={{ flexDirection: 'row' }} >
+          <View style={styles.textAndButtonView} >
             <TextInput style={styles.textInput}
               underlineColorAndroid="transparent"
               placeholder="New Todo"
@@ -44,13 +44,9 @@ export default class Todo extends React.Component {
             />
 
             {/* Button */}
-            <Button
-              onPress={this.doSomething}
-              title="Add Todo"
-              color="#222e50"
-              accessibilityLabel="Learn more about this purple button"
-            />
-
+            <TouchableOpacity style={styles.addButton}>
+              <Text style={styles.addButtontext}>add todo</Text>
+            </TouchableOpacity>
           </View>
 
           {/* Todo Items View */}
@@ -104,10 +100,10 @@ const styles = StyleSheet.create({
   },
   textInput: {
     marginBottom: 10,
-    width: '60%',
+    width: '73%',
     height: 40,
     borderColor: '#222e50',
-    borderWidth: .2,
+    borderWidth: .1,
     padding: 10,
     borderRadius: 5,
   },
@@ -115,6 +111,21 @@ const styles = StyleSheet.create({
     flex: 5,
     padding: 10,
     backgroundColor: 'white'
+  },
+  addButtontext: {
+    color: 'white',
+    fontSize: 15
+  },
+  addButton: {
+    padding: 8,
+    backgroundColor: '#222e50',
+    borderRadius: 5,
+    marginBottom: 30,
+    width: '25%'
+  },
+  textAndButtonView: { 
+    flexDirection: 'row', 
+    justifyContent: 'space-between'
   }
 });
 
