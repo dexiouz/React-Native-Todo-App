@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, KeyboardAvoidingView } from 'react-native';
 import Todo from './components/Todo';
 import Flex from './components/Flex';
 import FlexDistribution from './components/FlexDistribution';
@@ -10,6 +10,7 @@ import Touchables from './components/Touchbles';
 export default class App extends React.Component {
   render() {
     return (
+      
       <View style={styles.container}>
         <Todo />
       </View>

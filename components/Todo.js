@@ -1,24 +1,28 @@
 import React from 'react';
-import { StyleSheet, Text, View, FlatList, TextInput, Button, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TextInput, Button, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import uuid from 'uuid'
 export default class Todo extends React.Component {
-  render() {
-    const Todos = [
-      { name: 'Study', id: uuid() },
-      { name: 'visit', id: uuid() },
-      { name: 'Code', id: uuid() },
-      { name: 'Walk', id: uuid() },
-      { name: 'Bath the dog', id: uuid() },
-      { name: 'Shopping', id: uuid() },
-      { name: 'Clear workspace', id: uuid() },
-      { name: 'sleep', id: uuid() },
-      { name: 'Set the day plan', id: uuid() },
-      { name: 'Eat', id: uuid() },
-      { name: 'play soccer', id: uuid() },
-      { name: 'Pray', id: uuid() },
-      { name: 'watch netflix', id: uuid() },
-      { name: 'meditation', id: uuid() }
+  state = {
+    newTodo: "",
+    todos: [
+       'Study' ,
+       'code' ,
+       'eat' ,
     ]
+  }
+
+  addTodo = () => {
+    this.setState((prevState) => {
+      return {
+        todos: prevState.todos.concat(this.state.newTodo),
+        newTodo: prevState.newTodo = ''
+      }
+    })
+  }
+  handleChangeText = (newTodo) => {
+    this.setState({ newTodo })
+  }
+  render() {
     return (
       //container View
       <View style={styles.container}>
@@ -36,25 +40,31 @@ export default class Todo extends React.Component {
           {/* TextInput */}
           <View style={styles.textAndButtonView} >
             <TextInput style={styles.textInput}
+              value = {this.state.newTodo}
               underlineColorAndroid="transparent"
               placeholder="New Todo"
               placeholderTextColor="gray"
               autoCapitalize="none"
-              onChangeText={this.doSomething}
+              onChangeText={this.handleChangeText}
             />
 
             {/* Button */}
-            <TouchableOpacity style={styles.addButton}>
-              <Text style={styles.addButtontext}>add todo</Text>
+            <TouchableOpacity onPress = {this.addTodo} style={styles.addButton}>
+              <Text  style={styles.addButtontext}>
+                add todo
+              </Text>
             </TouchableOpacity>
           </View>
 
           {/* Todo Items View */}
           <View>
             <FlatList
-              data={Todos}
-              renderItem={({ item }) => <Text style={styles.todoText}>{item.name}</Text>}
-              keyExtractor={item => item.id}
+              data={this.state.todos}
+              renderItem={( {item} ) => 
+              <Text style={styles.todoText}>
+                {item}
+              </Text>}
+              keyExtractor={item => uuid()}
             />
           </View>
 
