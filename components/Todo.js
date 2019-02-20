@@ -19,24 +19,6 @@ export default class Todo extends React.Component {
     }
   }
 
-  // componentDidMount(){
-  //   this.setState({
-  //     showIndicator: true
-  //   })
-  //   setTimeout(() => {
-  //     AsyncStorage.getItem('todos')
-  //       .then(value => {
-  //         if(value !== null){
-  //           let valueToArray = JSON.parse(value);
-  //           this.setState({
-  //             todos: valueToArray,
-  //             showIndicator: false
-  //           })
-  //         }
-  //       })
-  //       .catch(err => console.warn(err));
-  //   }, 6000)
-  // };
 
   componentDidMount(){
     //  setState here

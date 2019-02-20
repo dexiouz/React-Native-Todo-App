@@ -3,14 +3,14 @@ import {
   StyleSheet, Text, View, TouchableOpacity, TouchableNativeFeedback, TouchableHighlight
 } from 'react-native';
 
-const Touchables = () => {
+const Touchables = (props) => {
   onPress =()=>{
     // alert('hello')
   }
   return (
     <View style={styles.container}>
       {/* TouchableOpacity */}
-      <TouchableOpacity  style={styles.touches}>
+      <TouchableOpacity onPress={()=>{props.navigation.navigate('Flex')}} style={styles.touches}>
         <Text style={styles.text}>TouchableOpacity</Text>
       </TouchableOpacity>
       
