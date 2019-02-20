@@ -1,17 +1,40 @@
 import React from 'react';
-import { StyleSheet, Text, View, FlatList, TextInput, Button, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TextInput, Button, TouchableOpacity, TouchableHighlight, AsyncStorage } from 'react-native';
+import { Ionicons, AntDesign, Entypo } from '@expo/vector-icons';
 import uuid from 'uuid'
 export default class Todo extends React.Component {
   state = {
     newTodo: "",
-    todos: [
-       'Study' ,
-       'code' ,
-       'eat' ,
-    ]
+    todos: []
   }
 
+  componentDidUpdate(prevProps, prevState){
+    if( prevState.todos.length !== this.state.todos.length){
+      const jsonState = JSON.stringify( this.state.todos)
+      
+      AsyncStorage.setItem('todos', jsonState)
+        .then(value => value)
+          .catch(err => console.warn(err));
+    }
+  }
+
+  componentDidMount(){
+    AsyncStorage.getItem('todos')
+      .then(value => {
+        if(value !== null){
+          let valueToArray = JSON.parse(value);
+          this.setState({
+            todos: valueToArray
+          })
+        }
+      })
+      .catch(err => console.warn(err));
+  };
+
   addTodo = () => {
+    if(!this.state.newTodo){
+      return
+    }
     this.setState((prevState) => {
       return {
         todos: prevState.todos.concat(this.state.newTodo),
@@ -19,23 +42,39 @@ export default class Todo extends React.Component {
       }
     })
   }
+
   handleChangeText = (newTodo) => {
     this.setState({ newTodo })
   }
+  
+  handleDeleteAll = () => {
+    this.setState({
+      todos: []
+    })
+  }
+
+  handleDeleteOneItem = (itemToBeRemoved) => {
+    this.setState((prevState) => ({
+      todos: prevState.todos.filter( todoItem => todoItem !== itemToBeRemoved )
+    }))
+  }
+  alert = (item) => {
+    alert(item)
+  }
+            
   render() {
     return (
       //container View
       <View style={styles.container}>
         {/* Header View */}
         <View style={styles.headerContainer}>
-          <Text style={styles.headerText}> Menu </Text>
+          <Ionicons name="md-menu" size={32} color="white" />
           <Text style={styles.headerText}> Todo App </Text>
-          <Text style={styles.headerText}> Settings </Text>
+          <AntDesign name="setting" size={32} color="white" />
         </View>
 
         {/* Body View */}
         <View style={styles.body}>
-
           {/* Input and Button View */}
           {/* TextInput */}
           <View style={styles.textAndButtonView} >
@@ -49,25 +88,42 @@ export default class Todo extends React.Component {
             />
 
             {/* Button */}
-            <TouchableOpacity onPress = {this.addTodo} style={styles.addButton}>
-              <Text  style={styles.addButtontext}>
-                add todo
-              </Text>
+            <TouchableOpacity onPress = {this.addTodo} style={styles.addButtonText}>
+              <Entypo name="add-to-list" size={20} color="white" />
             </TouchableOpacity>
           </View>
 
+           
+
           {/* Todo Items View */}
-          <View>
+          
             <FlatList
               data={this.state.todos}
-              renderItem={( {item} ) => 
-              <Text style={styles.todoText}>
-                {item}
-              </Text>}
+              renderItem={({ item }) => (
+                <View style={styles.renderItemView}>
+                  <Text 
+                    onPress = {(e) => {
+                      this.alert(item)
+                      }} 
+                      style={styles.todoItemText}>{item}</Text> 
+                  <TouchableOpacity  onPress = {(e) => {
+                    this.handleDeleteOneItem(item)
+                  }} >
+                    <Text style={styles.deleteItemText}>X</Text>
+                  </TouchableOpacity>
+                </View>
+              )}
               keyExtractor={item => uuid()}
             />
-          </View>
+         
 
+            {/* Remove all button */}
+          <TouchableHighlight
+            style={styles.removeButton}
+            onPress={this.handleDeleteAll}
+          >
+            <Text style={styles.buttonText}> Remove all</Text>
+          </TouchableHighlight>
         </View>
 
         {/* Footer View */}
@@ -89,10 +145,11 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     flex: 1,
-    paddingRight: 5,
-    paddingLeft: 5,
+    paddingBottom: 4,
+    paddingRight: 10,
+    paddingLeft: 10,
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-between',
     backgroundColor: '#222e50',
     alignItems: 'flex-end',
     borderBottomColor: '#ffffff',
@@ -122,20 +179,50 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: 'white'
   },
-  addButtontext: {
+  buttonText: {
     color: 'white',
     fontSize: 15
   },
-  addButton: {
-    padding: 8,
+  addButtonText: {
     backgroundColor: '#222e50',
+    width: '23%',
+    padding: 10,
+    height: '80%',
     borderRadius: 5,
-    marginBottom: 30,
-    width: '25%'
+    alignItems: 'center'
   },
   textAndButtonView: { 
     flexDirection: 'row', 
     justifyContent: 'space-between'
+  },
+
+  removeButton: {
+    backgroundColor: '#222e50',
+    width: '100%',
+    padding: 10,
+    marginTop: 20,
+    borderRadius: 5,
+    alignItems: 'center'
+  },
+
+  renderItemView: { 
+    flexDirection: 'row', 
+    justifyContent: 'space-between', 
+    borderRadius: 5, 
+    borderWidth: .5, 
+    borderColor: '#222e50', 
+    padding: 10, 
+    marginTop: 10 
+  },
+  todoItemText: {
+    color: '#222e50',
+    fontSize: 16,
+    backgroundColor: 'transparent',
+  },
+  deleteItemText: {
+   fontWeight: '900', 
+   color: 'red', 
+   fontSize: 19
   }
 });
 
@@ -143,7 +230,25 @@ const styles = StyleSheet.create({
 
 
 
-
+       {/* Todo Items View */}
+      //  <ScrollView>
+      //  <View>         
+      //      {
+      //        this.state.todos.map(item => {
+      //          return (
+      //            <View key={uuid()} style={styles.renderItemView}>
+      //              <Text style={styles.todoItemText}>{item}</Text>
+      //              <TouchableOpacity onPress={(e) => {
+      //                this.handleDeleteOneItem(item)
+      //              }} >
+      //                <Text style={styles.deleteItemText}>X</Text>
+      //              </TouchableOpacity>
+      //            </View>
+      //          )
+      //        })
+      //      }
+      //  </View>
+      //    </ScrollView>
 
 
 
