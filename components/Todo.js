@@ -1,11 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, View, FlatList, TextInput, Button, TouchableOpacity, TouchableHighlight, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TextInput, Button, TouchableOpacity, TouchableHighlight, AsyncStorage, ActivityIndicator } from 'react-native';
 import { Ionicons, AntDesign, Entypo } from '@expo/vector-icons';
 import uuid from 'uuid'
 export default class Todo extends React.Component {
   state = {
     newTodo: "",
-    todos: []
+    todos: [],
+    isAnimating: false
   }
 
   componentDidUpdate(prevProps, prevState){
@@ -18,18 +19,46 @@ export default class Todo extends React.Component {
     }
   }
 
+  // componentDidMount(){
+  //   this.setState({
+  //     showIndicator: true
+  //   })
+  //   setTimeout(() => {
+  //     AsyncStorage.getItem('todos')
+  //       .then(value => {
+  //         if(value !== null){
+  //           let valueToArray = JSON.parse(value);
+  //           this.setState({
+  //             todos: valueToArray,
+  //             showIndicator: false
+  //           })
+  //         }
+  //       })
+  //       .catch(err => console.warn(err));
+  //   }, 6000)
+  // };
+
   componentDidMount(){
-    AsyncStorage.getItem('todos')
-      .then(value => {
-        if(value !== null){
-          let valueToArray = JSON.parse(value);
-          this.setState({
-            todos: valueToArray
-          })
-        }
+    //  setState here
+    this.setState({
+        isAnimating: true
       })
-      .catch(err => console.warn(err));
-  };
+  //setTimeout here
+      setTimeout(() => {
+        AsyncStorage.getItem('todos')
+          .then(value => {
+            if(value !== null){
+              let valueToArray = JSON.parse(value);
+              this.setState({
+                todos: valueToArray,
+                isAnimating: false
+              })
+            }
+          })
+          .catch(err => console.warn(err));
+      },3000)
+    };
+
 
   addTodo = () => {
     if(!this.state.newTodo){
@@ -96,7 +125,9 @@ export default class Todo extends React.Component {
            
 
           {/* Todo Items View */}
-          
+          {
+             this.state.isAnimating &&  <ActivityIndicator size="large" color="#222e50" />
+          }
             <FlatList
               data={this.state.todos}
               renderItem={({ item }) => (
