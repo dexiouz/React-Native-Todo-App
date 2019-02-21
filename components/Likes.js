@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { black } from 'ansi-colors';
 class Likes extends Component {
   state = {
     likes: 0
@@ -30,15 +31,66 @@ class Likes extends Component {
       }
     })
   }
+
+
   static navigationOptions = {
-    title: 'Likes App',
-    headerStyle:{
-      backgroundColor: '#222e50'
-    },
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      fontWeight: 'bold'
-    }
+      title: 'Likes App',
+      headerStyle:{
+        backgroundColor: '#222e50',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+        textAlign: 'center',
+        flex: 1
+      },
+  
+      headerRight: (
+        <Button
+         title="button"
+         color="#222e50"
+        onPress={this.onPress}
+        />
+      ),
+      headerLeft: (
+        <TouchableOpacity style = {{padding: 6, borderWidth: .8, borderColor: 'black'}}>
+          <Text style = {{color: 'white', fontSize: 16, fontWeight: 'bold'}}>button</Text>
+        </TouchableOpacity>
+      ),
+  };
+
+//   static navigationOptions = ({ navigation }) => {
+//     const { params = {} } = navigation.state;
+//     return {
+//       title: 'Likes App',
+//       headerStyle:{
+//         backgroundColor: '#222e50',
+//       },
+//       headerTintColor: '#fff',
+//       headerTitleStyle: {
+//         fontWeight: 'bold',
+//       },
+  
+//       headerRight: (
+//         <Button
+//          title="button"
+//          color="#222e50"
+//         //  onPress={() => params.increaseLikes()} 
+//         //  onPress={navigation.getParam('increaseLikes')}
+//         onPress={this.onPress}
+//         />
+//       ),
+
+//       headerLeft: (
+//         <TouchableOpacity style = {{padding: 6, borderWidth: .8, borderColor: 'black'}}>
+//           <Text style = {{color: 'white', fontSize: 16, fontWeight: 'bold'}}>button</Text>
+//         </TouchableOpacity>
+//       ),
+//     };
+// };
+
+  componentDidMount() {
+    this.props.navigation.setParams({ increaseLikes: this.increaseLikes })
   }
   render() {
     return (

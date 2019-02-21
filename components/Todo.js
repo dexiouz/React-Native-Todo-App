@@ -72,7 +72,9 @@ export default class Todo extends React.Component {
   alert = (item) => {
     alert(item)
   }
-     
+ static navigationOptions = {
+   header: null
+ }    
   render() {
     return (
       //container View

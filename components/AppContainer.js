@@ -20,8 +20,18 @@ const AppNavigator = createStackNavigator(
     Touchables: Touchables
   },
   {
-    initialRouteName: "Touchables"
-  }
+    initialRouteName: "Touchables",
+
+    defaultNavigationOptions: {
+      headerStyle:{
+      backgroundColor: '#222e50'
+    },
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+      fontWeight: 'bold'
+    } 
+    }
+  },
 )
 
 AppContainer = createAppContainer( AppNavigator );
