@@ -31,10 +31,14 @@ class Likes extends Component {
     })
   }
   static navigationOptions = {
-    // title: 'Likes App',
-    // headerStyle:{
-    //   backgroundColor: '#222e50'
-    // }
+    title: 'Likes App',
+    headerStyle:{
+      backgroundColor: '#222e50'
+    },
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+      fontWeight: 'bold'
+    }
   }
   render() {
     return (
