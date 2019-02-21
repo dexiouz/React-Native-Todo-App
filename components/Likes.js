@@ -14,6 +14,26 @@ class Likes extends Component {
       }
     })
   }
+
+    //increaseLikes by 5 handler
+    increaseLikesBy5 = () => {
+      this.setState((prevState) => {
+        return {
+          likes: prevState.likes + 5
+        }
+      })
+    }
+
+    // decreaseLikes by handler
+  decreaseLikesBy5 = () => {
+    this.state.likes &&
+    (this.setState((prevState) => {
+      return {
+        likes: prevState.likes - 5
+      }
+    }))
+  }
+
   // decreaseLikes handler
   decreaseLikes = () => {
     this.state.likes &&
@@ -32,8 +52,9 @@ class Likes extends Component {
     })
   }
 
-
-  static navigationOptions = {
+  static navigationOptions = ({ navigation }) => {
+    const { params = {} } = navigation.state;
+    return {
       title: 'Likes App',
       headerStyle:{
         backgroundColor: '#222e50',
@@ -47,56 +68,32 @@ class Likes extends Component {
   
       headerRight: (
         <Button
-         title="button"
+         title="like:+5"
          color="#222e50"
-        onPress={this.onPress}
+        onPress = {() => params.increaseLikesBy5()}
         />
       ),
+
       headerLeft: (
-        <TouchableOpacity style = {{padding: 6, borderWidth: .8, borderColor: 'black'}}>
-          <Text style = {{color: 'white', fontSize: 16, fontWeight: 'bold'}}>button</Text>
+        <TouchableOpacity  
+          onPress = {() => params.decreaseLikesBy5()} 
+          style = {{padding: 6, borderWidth: .8, borderColor: 'black'}}
+          >
+          <Text style = {{color: 'white', fontSize: 16, fontWeight: 'bold'}}>unlike:-5</Text>
         </TouchableOpacity>
       ),
-  };
-
-//   static navigationOptions = ({ navigation }) => {
-//     const { params = {} } = navigation.state;
-//     return {
-//       title: 'Likes App',
-//       headerStyle:{
-//         backgroundColor: '#222e50',
-//       },
-//       headerTintColor: '#fff',
-//       headerTitleStyle: {
-//         fontWeight: 'bold',
-//       },
-  
-//       headerRight: (
-//         <Button
-//          title="button"
-//          color="#222e50"
-//         //  onPress={() => params.increaseLikes()} 
-//         //  onPress={navigation.getParam('increaseLikes')}
-//         onPress={this.onPress}
-//         />
-//       ),
-
-//       headerLeft: (
-//         <TouchableOpacity style = {{padding: 6, borderWidth: .8, borderColor: 'black'}}>
-//           <Text style = {{color: 'white', fontSize: 16, fontWeight: 'bold'}}>button</Text>
-//         </TouchableOpacity>
-//       ),
-//     };
-// };
+    };
+};
 
   componentDidMount() {
-    this.props.navigation.setParams({ increaseLikes: this.increaseLikes })
+    this.props.navigation.setParams({ increaseLikesBy5: this.increaseLikesBy5 })
+    this.props.navigation.setParams({ decreaseLikesBy5: this.decreaseLikesBy5 })
   }
   render() {
     return (
       <View>
         <Text style={styles.text}>Welcome to my Likes App</Text>
-        <Text style={styles.text}> Likes: {this.state.likes} </Text>
+        <Text style={styles.text}> Likes: <Text style = {styles.countNumber}>{this.state.likes}</Text> </Text>
 
        <View style = {styles.btn}> 
         <Button
@@ -132,6 +129,12 @@ const styles = StyleSheet.create({
     padding: 10 
   },
   text: {
-    fontWeight: 'bold'
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  countNumber: {
+    fontWeight: 'bold',
+    fontSize: 70,
+    color: "#222e50"
   }
 });
