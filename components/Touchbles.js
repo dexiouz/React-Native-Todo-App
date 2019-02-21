@@ -15,7 +15,7 @@ const Touchables = (props) => {
       </TouchableOpacity>
       
       {/* TouchableNativeFeedback*/}
-      <TouchableNativeFeedback>
+      <TouchableNativeFeedback onPress={()=>{props.navigation.navigate('Todo')}}>
       <View style={styles.touches}>
         <Text style={styles.text}>TouchableNativeFeedback</Text>
       </View>
@@ -23,7 +23,7 @@ const Touchables = (props) => {
  
         <TouchableHighlight
          style = {styles.touches}
-         onPress={this.onPress}
+         onPress={()=>{props.navigation.navigate('Likes')}}
         >
          <Text style = {styles.text}> TouchableHighlight</Text>
         </TouchableHighlight>
