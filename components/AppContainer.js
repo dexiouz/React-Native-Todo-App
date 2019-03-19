@@ -1,13 +1,14 @@
-import React from 'react';
-import { View } from 'react-native';
-import { createStackNavigator, createAppContainer } from 'react-navigation';
-import Likes from './Likes';
-import Todo from './Todo';
-import Flex from './Flex';
-import FlexDistribution from './FlexDistribution';
-import List from './List';
-import FlatlistExample from './FlatListExample';
-import Touchables from './Touchbles';
+import React from "react";
+import { View } from "react-native";
+import { createStackNavigator, createAppContainer } from "react-navigation";
+import Likes from "./Likes";
+import Todo from "./Todo";
+import Flex from "./Flex";
+import FlexDistribution from "./FlexDistribution";
+import List from "./List";
+import FlatlistExample from "./FlatListExample";
+import Touchables from "./Touchbles";
+import Menu from "./Menu";
 
 const AppNavigator = createStackNavigator(
   {
@@ -17,26 +18,24 @@ const AppNavigator = createStackNavigator(
     FlexDistribution: FlexDistribution,
     List: List,
     FlatlistExample: FlatlistExample,
-    Touchables: Touchables
+    Touchables: Touchables,
+    Menu
   },
   {
-    initialRouteName: "Touchables",
+    initialRouteName: "Todo",
 
     defaultNavigationOptions: {
-      headerStyle:{
-      backgroundColor: '#222e50'
-    },
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      fontWeight: 'bold'
-    } 
+      headerStyle: {
+        backgroundColor: "#222e50"
+      },
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        fontWeight: "bold"
+      }
     }
-  },
-)
+  }
+);
 
-AppContainer = createAppContainer( AppNavigator );
+AppContainer = createAppContainer(AppNavigator);
 
-export default AppContainer
-
-
-
+export default AppContainer;
